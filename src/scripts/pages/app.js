@@ -94,7 +94,7 @@ class App {
     if (isServiceWorkerAvailable()) {
       this.#setupPushNotification();
     }
-    this;
+    this; // first
   }
 }
 
