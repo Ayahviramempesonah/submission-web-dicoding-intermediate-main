@@ -1,0 +1,81 @@
+/* MOBILE FIRST APPROACH */
+
+/* Reset default form styles */
+form .form-buttons {
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.register-container,
+.login-container {
+  padding: 20px;
+}
+
+.register__title,
+.login__title {
+  font-size: 20px;
+}
+
+.btn {
+  font-size: 14px;
+}
+
+/* MEDIA QUERY: Tablet kecil (>= 600px) */
+@media screen and (min-width: 600px) {
+  form .form-buttons {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .register-container,
+  .login-container {
+    padding: 25px;
+  }
+
+  .register-form,
+  .login-form {
+    border: 1px solid #d4d4d4;
+  }
+}
+
+/* MEDIA QUERY: Desktop (>= 1200px) */
+@media screen and (min-width: 1200px) {
+  .story-list {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  }
+}
+
+/* MEDIA QUERY: Ukuran sangat kecil (< 320px) */
+@media screen and (max-width: 320px) {
+  .story-list {
+    grid-template-columns: 1fr;
+    gap: 15px;
+    padding: 5px;
+  }
+
+  .register__title,
+  .login__title {
+    font-size: 18px;
+  }
+
+  .btn {
+    font-size: 13px;
+  }
+}
+
+/* MEDIA QUERY: Tinggi peta responsif */
+@media screen and (min-width: 600px) {
+  .reports-list__map__container,
+  .reports-list__map,
+  #map {
+    height: 500px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .reports-list__map__container,
+  .reports-list__map,
+  #map {
+    height: 250px;
+  }
+}
