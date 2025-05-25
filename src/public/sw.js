@@ -1,30 +1,62 @@
-// sw.js - Service Worker dasar
+// public/sw.js
+import { precacheAndRoute } from 'https://storage.googleapis.com/workbox-cdn/releases/6.5.4/workbox-precaching.prod.mjs ';
+import { registerRoute } from 'https://storage.googleapis.com/workbox-cdn/releases/6.5.4/workbox-routing.prod.mjs ';
+import { NetworkFirst } from 'https://storage.googleapis.com/workbox-cdn/releases/6.5.4/workbox-strategies.prod.mjs ';
+import { openDB } from 'idb'; // Gunakan library idb untuk IndexedDB
 
-// Event ketika service worker diinstal
-self.addEventListener('install', (event) => {
-    console.log('[Service Worker] Installed');
-    self.skipWaiting(); // langsung aktifkan tanpa tunggu tab lama ditutup
-  });
-  
-  // Event ketika service worker diaktifkan
-  self.addEventListener('activate', (event) => {
-    console.log('[Service Worker] Activated');
-    // bisa tambahkan logic pembersihan cache lama jika ada
-  });
-  
-  // Event untuk menangani push notification (jika nanti digunakan)
-  self.addEventListener('push', (event) => {
-    console.log('[Service Worker] Push Received.');
-    const data = event.data?.json() || { title: 'Notifikasi', body: 'Push message!' };
-    
-    const options = {
-      body: data.body,
-      icon: '/icon.png',
-      badge: '/badge.png',
-    };
-  
-    event.waitUntil(
-      self.registration.showNotification(data.title, options)
-    );
-  });
-  
+// Precaching
+const manifest = self.__WB_MANIFEST;
+precacheAndRoute(manifest || []);
+
+// Inisialisasi IndexedDB
+const dbPromise = openDB('my-story-db', 1, {
+  upgrade(db) {
+    db.createObjectStore('api-cache', { keyPath: 'id' });
+  },
+});
+
+// Caching untuk API (offline mode)
+registerRoute(
+  ({ url }) => url.href.startsWith('https://story-api.dicoding.dev/v1/'), // Perbaikan pencocokan URL API
+  async ({ request }) => {
+    const cache = await caches.open('api-cache');
+    try {
+      const response = await fetch(request);
+
+      // Simpan data ke IndexedDB
+      const data = await response.clone().json();
+      const db = await dbPromise;
+      await db.put('api-cache', { id: request.url, data });
+
+      // Cache respons di browser
+      cache.put(request, response.clone());
+      return response;
+    } catch (error) {
+      // Ambil data dari IndexedDB jika offline
+      const db = await dbPromise;
+      const cachedData = await db.get('api-cache', request.url);
+      if (cachedData) {
+        return new Response(JSON.stringify(cachedData.data));
+      }
+      return new Response('Offline', { status: 503 });
+    }
+  },
+);
+
+// Push Notification
+self.addEventListener('push', (event) => {
+  console.log('[Service Worker] Push received');
+  const data = event.data.json();
+  const title = data.title || 'Push Notification';
+  const options = data.options || {};
+
+  event.waitUntil(self.registration.showNotification(title, options));
+});
+
+// Handle notifikasi click
+self.addEventListener('notificationclick', (event) => {
+  event.notification.close();
+  event.waitUntil(
+    clients.openWindow(event.notification.data.url || '/#/stories'), // Buka halaman tertentu
+  );
+});

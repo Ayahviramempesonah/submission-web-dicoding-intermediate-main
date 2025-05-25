@@ -82,6 +82,14 @@ export async function fetchStories(params = {}) {
     // Tangani kasus jika fetch gagal sepenuhnya (misalnya, server tidak tersedia)
     if (!fetchResponse.ok) {
       const errorData = await fetchResponse.json(); // Coba parse pesan error dari API
+
+      // Jika token tidak valid, hapus token dan redirect ke halaman login
+      if (errorData.message && errorData.message.includes('Invalid token signature')) {
+        removeAccessToken(); // Hapus token yang tidak valid
+        location.hash = '/login'; // Redirect ke halaman login
+        throw new Error('Token invalid. Redirecting to login...');
+      }
+
       throw new Error(errorData.message || 'Failed to fetch stories.');
     }
 
@@ -184,4 +192,19 @@ export async function addNewStory(storyData) {
     console.error('addNewStory: error', error.message);
     throw error;
   }
+}
+
+//untuk logout
+export function removeAccessToken() {
+  try {
+    localStorage.removeItem(CONFIG.ACCESS_TOKEN_KEY);
+    return true;
+  } catch (error) {
+    console.error('getLogout: error:', error);
+    return false;
+  }
+}
+
+export function getLogout() {
+  removeAccessToken();
 }

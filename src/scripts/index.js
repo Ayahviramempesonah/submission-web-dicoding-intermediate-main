@@ -1,7 +1,6 @@
 // CSS imports
 import '../styles/styles.css';
 import '../styles/responsive.css';
-
 import App from './pages/app';
 import 'leaflet/dist/leaflet.css';
 import { registerServiceWorker } from './utils';
@@ -16,7 +15,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   await app.renderPage();
 
-  await registerServiceWorker();
+    // await registerServiceWorker();
 
   window.addEventListener('hashchange', async () => {
     await app.renderPage();

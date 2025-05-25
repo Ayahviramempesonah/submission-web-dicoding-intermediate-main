@@ -1,22 +1,30 @@
 import { defineConfig } from 'vite';
 import { resolve } from 'path';
 import { VitePWA } from 'vite-plugin-pwa';
-// https://vitejs.dev/config/
+
 export default defineConfig({
   root: resolve(__dirname, 'src'),
+
   plugins: [
     VitePWA({
-      registerType: 'autoUpdate',
-      injectRegister: 'auto',
-      workbox: {
-        globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
+      strategies: 'injectManifest',
+      swSrc: resolve(__dirname, 'src/public/sw.js'), // Path ke file Service Worker kustom
+      swDest: resolve(__dirname, 'dist/sw.js'), // Output file Service Worker
+      registerType: 'autoUpdate', // Memastikan Service Worker diperbarui otomatis
+       injectRegister: 'auto', // Mendaftarkan Service Worker secara otomatis
+
+      injectManifest: {
+        globPatterns: ['**/*.{js,css,html,ico,png,svg}'], // File statis yang ingin dicache
       },
-      includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'mask-icon.svg'],
+
       manifest: {
-        name: 'Insta Lite',
-        short_name: 'IL',
-        description: 'My Awesome App description',
+        name: 'InstaLite',
+        short_name: 'App',
+        description: 'A Progressive Web App with offline support and push notifications',
         theme_color: '#ffffff',
+        background_color: '#ffffff',
+        display: 'standalone', // Membuat aplikasi terlihat seperti aplikasi asli
+        start_url: '/', // Halaman awal aplikasi
         icons: [
           {
             src: 'pwa-192x192.png',
@@ -32,14 +40,9 @@ export default defineConfig({
       },
     }),
   ],
-  publicDir: resolve(__dirname, 'src', 'public'),
+  publicDir: resolve(__dirname, 'public'),
   build: {
     outDir: resolve(__dirname, 'dist'),
     emptyOutDir: true,
-  },
-  resolve: {
-    alias: {
-      '@': resolve(__dirname, 'src'),
-    },
   },
 });

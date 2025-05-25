@@ -365,3 +365,14 @@ export function generateRemoveReportButtonTemplate() {
     </button>
   `;
 }
+
+export function navbarMainCustom() {
+  return `
+    <li><a href="#/"><button>Subscribe</button></a></li>
+            <li><a href="#/">Beranda</a></li>
+            <li><a href="#/stories">Buat Story</a></li>
+            <li><a href="#/about">Tentang Saya</a></li>
+            <li><a href="#/logout"><button>Logout</button></a></li>
+  
+  `;
+}
