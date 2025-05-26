@@ -7,7 +7,7 @@ import {
   generateUnauthenticatedNavigationListTemplate,
 } from '../template';
 import { isServiceWorkerAvailable } from '../utils';
-import { subscribe } from '../utils/notification-helper';
+// import { subscr } from '../utils/notification-helper';
 import { getAccessToken, removeAccessToken } from '../utils/auth';
 
 class App {
@@ -26,11 +26,25 @@ class App {
   }
 
   async #setupPushNotification() {
-    const pushNotificationTools = document.getElementById('push-notification-tools');
-    pushNotificationTools.innerHTML = generateSubscribeButtonTemplate();
-    document.getElementById('subscribe-button').addEventListener('click', () => {
-      subscribe();
-    });
+    // const pushNotificationTools = document.getElementById('push-notification-tools');
+    // pushNotificationTools.innerHTML = generateSubscribeButtonTemplate();
+    // document.getElementById('subscribe-button').addEventListener('click', () => {
+    //   subscribe();
+    // });
+    
+      const btn = document.getElementById('notification-btn');
+      const icon = btn.querySelector('i');
+      
+      if (isSubscribed) {
+        btn.innerHTML = '<i class="fas fa-bell-slash"></i> Unsubscribe Notifications';
+        btn.classList.remove('unsubscribed');
+        btn.classList.add('subscribed');
+      } else {
+        btn.innerHTML = '<i class="fas fa-bell"></i> Subscribe Notifications';
+        btn.classList.remove('subscribed');
+        btn.classList.add('unsubscribed');
+      }
+    
   }
 
   #setupDrawer() {
@@ -56,31 +70,33 @@ class App {
 
   //navigation list
   #setupNavigationList() {
-    const isLogin = !!getAccessToken();
-    const navListMain = this.#drawerNavigation.children.namedItem('navlist-main');
-    const navList = this.#drawerNavigation.children.namedItem('navlist');
+    // const isLogin = !!getAccessToken();
+    // const navListMain = this.#drawerNavigation.children.namedItem('navlist-main');
+    // const navList = this.#drawerNavigation.children.namedItem('navlist');
 
-    // User not log in
-    if (!isLogin) {
-      navListMain.innerHTML = '';
-      navList.innerHTML = generateUnauthenticatedNavigationListTemplate();
-      return;
-    }
+    // // User not log in
+    // if (!isLogin) {
+    //   navListMain.innerHTML = '';
+    //   navList.innerHTML = generateUnauthenticatedNavigationListTemplate();
+    //   return;
+    // }
 
-    navListMain.innerHTML = generateMainNavigationListTemplate();
-    navList.innerHTML = generateAuthenticatedNavigationListTemplate();
+    // navListMain.innerHTML = generateMainNavigationListTemplate();
+    // navList.innerHTML = generateAuthenticatedNavigationListTemplate();
 
-    const logoutButton = document.getElementById('logout-button');
-    logoutButton.addEventListener('click', (event) => {
-      event.preventDefault();
+    // const logoutButton = document.getElementById('logout-button');
+    // logoutButton.addEventListener('click', (event) => {
+    //   event.preventDefault();
 
-      if (confirm('Apakah Anda yakin ingin keluar?')) {
-        getLogout();
+    //   if (confirm('Apakah Anda yakin ingin keluar?')) {
+    //     getLogout();
 
-        // Redirect
-        location.hash = '/login';
-      }
-    });
+    //     // Redirect
+    //     location.hash = '/login';
+    //   }
+    // });
+
+    
   }
 
   async renderPage() {
@@ -94,7 +110,7 @@ class App {
     // this.#setupNavigationList();
 
     if (isServiceWorkerAvailable()) {
-      // this.#setupPushNotification();
+        this.#setupPushNotification();
     }
     this; // first
   }

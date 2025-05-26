@@ -208,3 +208,113 @@ export function removeAccessToken() {
 export function getLogout() {
   removeAccessToken();
 }
+
+// async function subscribePushNotification( subscription) {
+
+
+//   const token = getAccessToken(); 
+
+
+
+//   try {
+//     const response = await fetch(`${BASE_URL}/notifications/subscribe`, {
+//       method: 'POST',
+//       headers: {
+//         'Authorization': `Bearer ${token}`,
+//         'Content-Type': 'application/json',
+//       },
+//       body: JSON.stringify({
+//         endpoint: subscription.endpoint,
+//         keys: {
+//           p256dh: subscription.keys.p256dh,
+//           auth: subscription.keys.auth,
+//         },
+//       }),
+//     });
+//     return await response.json();
+//   } catch (error) {
+//     console.error('Subscribe error:', error);
+//     throw error;
+//   }
+// }
+
+ export  async function subscribePushNotification(subscription) {
+  try {
+    // Get token from storage
+    const token = getAccessToken();
+    if (!token) {
+      throw new Error('Access token is missing or invalid. Please login first.');
+    }
+
+    // Make API request
+    const response = await fetch(`${CONFIG.BASE_URL}/notifications/subscribe`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        endpoint: subscription.endpoint,
+        keys: {
+          p256dh: subscription.keys.p256dh,
+          auth: subscription.keys.auth,
+        },
+      }),
+    });
+
+    // Check if response is successful
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || 'Failed to subscribe to notifications');
+    }
+
+    // Parse successful response
+    const data = await response.json();
+    console.log('Successfully subscribed:', data);
+    return data;
+
+  } catch (error) {
+    console.error('Subscribe error:', error);
+    // Re-throw the error for the caller to handle
+    throw error;
+  }
+}
+
+//unsubcribetions
+  export async function unsubscribePushNotification(endpoint) {
+  try {
+    // Get token from storage
+    const token = getAccessToken();
+    if (!token) {
+      throw new Error('Access token is missing or invalid. Please login first.');
+    }
+
+    // Make API request
+    const response = await fetch(`${CONFIG.BASE_URL}/notifications/subscribe`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        endpoint: endpoint,
+      }),
+    });
+
+    // Check if response is successful
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || 'Failed to unsubscribe from notifications');
+    }
+
+    // Parse successful response
+    const data = await response.json();
+    console.log('Successfully unsubscribed:', data);
+    return data;
+
+  } catch (error) {
+    console.error('Unsubscribe error:', error);
+    // Re-throw the error for the caller to handle
+    throw error;
+  }
+}
