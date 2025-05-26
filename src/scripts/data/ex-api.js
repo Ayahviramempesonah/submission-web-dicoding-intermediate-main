@@ -46,7 +46,7 @@ async function addStory(token, { description, photo, lat, lon }) {
     const response = await fetch(`${BASE_URL}/stories`, {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
       },
       body: formData,
     });
@@ -88,7 +88,7 @@ async function getAllStories(token, { page, size, location } = {}) {
     const response = await fetch(`${BASE_URL}/stories?${params.toString()}`, {
       method: 'GET',
       headers: {
-        'Authorization': `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
       },
     });
     return await response.json();
@@ -104,7 +104,7 @@ async function getStoryDetail(token, storyId) {
     const response = await fetch(`${BASE_URL}/stories/${storyId}`, {
       method: 'GET',
       headers: {
-        'Authorization': `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
       },
     });
     return await response.json();
@@ -168,7 +168,7 @@ async function unsubscribePushNotification(token, endpoint) {
 //   console.log(loginResponse);
 //   const token = loginResponse.loginResult.token;
 
-  // Add story (authenticated)
+// Add story (authenticated)
 //   const photoFile = /* get file input */
 //   const addStoryResponse = await addStory(token, {
 //     description: 'My first story',

@@ -1,7 +1,8 @@
+// //    self.addEventListener('fetch', (event) => {
 // public/sw.js
-import { precacheAndRoute } from 'https://storage.googleapis.com/workbox-cdn/releases/6.5.4/workbox-precaching.prod.mjs ';
-import { registerRoute } from 'https://storage.googleapis.com/workbox-cdn/releases/6.5.4/workbox-routing.prod.mjs ';
-import { NetworkFirst } from 'https://storage.googleapis.com/workbox-cdn/releases/6.5.4/workbox-strategies.prod.mjs ';
+import { precacheAndRoute } from 'https://storage.googleapis.com/workbox-cdn/releases/6.5.4/workbox-precaching.prod.mjs';
+import { registerRoute } from 'https://storage.googleapis.com/workbox-cdn/releases/6.5.4/workbox-routing.prod.mjs';
+import { NetworkFirst } from 'https://storage.googleapis.com/workbox-cdn/releases/6.5.4/workbox-strategies.prod.mjs';
 import { openDB } from 'idb'; // Gunakan library idb untuk IndexedDB
 
 // Precaching
@@ -36,7 +37,9 @@ registerRoute(
       const db = await dbPromise;
       const cachedData = await db.get('api-cache', request.url);
       if (cachedData) {
-        return new Response(JSON.stringify(cachedData.data));
+        return new Response(JSON.stringify(cachedData.data), {
+          headers: { 'Content-Type': 'application/json' },
+        });
       }
       return new Response('Offline', { status: 503 });
     }
@@ -47,6 +50,7 @@ registerRoute(
 self.addEventListener('push', (event) => {
   console.log('[Service Worker] Push received');
   const data = event.data.json();
+  console.log('cek data', data);
   const title = data.title || 'Push Notification';
   const options = data.options || {};
 
@@ -60,3 +64,5 @@ self.addEventListener('notificationclick', (event) => {
     clients.openWindow(event.notification.data.url || '/#/stories'), // Buka halaman tertentu
   );
 });
+
+//

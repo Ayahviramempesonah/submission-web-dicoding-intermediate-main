@@ -1,76 +1,7 @@
 import { convertBase64ToUint8Array } from './index';
-import CONFIG from '../config'
+import CONFIG from '../config';
 
-
-// export function isNotificationAvailable() {
-//   return 'Notification' in window;
-// }
-
-// export function isNotificationGranted() {
-//   return Notification.permission === 'granted';
-// }
-
-// export async function requestNotificationPermission() {
-//   if (!isNotificationAvailable()) {
-//     console.error('Notification API unsupported.');
-//     return false;
-//   }
-
-//   if (isNotificationGranted()) {
-//     return true;
-//   }
-
-//   const status = await Notification.requestPermission();
-
-//   if (status === 'denied') {
-//     alert('Izin notifikasi ditolak.');
-//     return false;
-//   }
-
-//   if (status === 'default') {
-//     alert('Izin notifikasi ditutup atau diabaikan.');
-//     return false;
-//   }
-
-//   return true;
-// }
-
-// export async function getPushSubscription() {
-//   const registration = await navigator.serviceWorker.getRegistration();
-//   return await registration.pushManager.getSubscription();
-// }
-
-// export async function isCurrentPushSubscriptionAvailable() {
-//   return !!(await getPushSubscription());
-// }
-
-// export async function subscribe() {
-//   if (!(await requestNotificationPermission())) {
-//     return;
-//   }
-
-//   if (await isCurrentPushSubscriptionAvailable()) {
-//     alert('Sudah berlangganan push notification.');
-//     return;
-//   }
-
-//   console.log('Mulai berlangganan push notification...');
-// }
-
-// export function generateSubscribeOptions() {
-//   return {
-//     userVisibleOnly: true,
-//     applicationServerKey: convertBase64ToUint8Array(CONFIG.VAPID_PUBLIC_KEY),
-//   };
-
-// }
-
-//baru
-// import { convertBase64ToUint8Array } from './index';
-// import { VAPID_PUBLIC_KEY } from '../config';
-  import { subscribePushNotification, unsubscribePushNotification } from '../data/api';
-// import  subscribePushNotification from '../data/api'
-
+import { subscribePushNotification, unsubscribePushNotification } from '../data/api';
 
 export function isNotificationAvailable() {
   return 'Notification' in window;
@@ -145,7 +76,7 @@ export async function subscribe() {
     const { endpoint, keys } = pushSubscription.toJSON();
     const response = await subscribePushNotification({ endpoint, keys });
 
-    if (!response.ok) {
+    if (response.error) {
       console.error('subscribe: response:', response);
       alert(failureSubscribeMessage);
 
@@ -180,7 +111,7 @@ export async function unsubscribe() {
     const { endpoint, keys } = pushSubscription.toJSON();
     const response = await unsubscribePushNotification({ endpoint });
 
-    if (!response.ok) {
+    if (response.error) {
       alert(failureUnsubscribeMessage);
       console.error('unsubscribe: response:', response);
 

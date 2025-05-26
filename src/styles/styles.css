@@ -289,7 +289,6 @@ header {
   z-index: 1000;
 }
 
-
 /* .main-header {
   min-height: 90px;
   padding-block: 20px;
@@ -487,7 +486,7 @@ header {
   .drawer-button {
     display: block; /* Tampilkan tombol menu di mobile */
   }
-  
+
   .main-header {
     padding: 0 15px;
   }
@@ -507,26 +506,26 @@ header {
     align-items: center;
     gap: 20px;
   }
-  
+
   .nav-list {
     flex-direction: row;
     margin: 0;
     gap: 10px;
   }
-  
+
   .nav-list li a {
     color: white;
     padding: 8px 12px;
   }
-  
+
   .nav-list li a:hover {
     background-color: rgba(255, 255, 255, 0.1);
   }
-  
+
   .btn-sub {
     margin-top: 0;
   }
-  
+
   .notification-btn {
     margin-top: 0;
   }

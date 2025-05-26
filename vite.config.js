@@ -8,11 +8,14 @@ export default defineConfig({
   plugins: [
     VitePWA({
       strategies: 'injectManifest',
-      swSrc: resolve(__dirname, 'src/public/sw.js'), // Path ke file Service Worker kustom
+      swSrc: 'sw.js', // Path relative to Vite's root ('src'), so it points to 'src/public/sw.js'
       swDest: resolve(__dirname, 'dist/sw.js'), // Output file Service Worker
       registerType: 'autoUpdate', // Memastikan Service Worker diperbarui otomatis
-       injectRegister: 'auto', // Mendaftarkan Service Worker secara otomatis
-
+      injectRegister: 'auto', // Mendaftarkan Service Worker secara otomatis
+      devOptions: {
+        type: 'module',
+        enabled: true,
+      },
       injectManifest: {
         globPatterns: ['**/*.{js,css,html,ico,png,svg}'], // File statis yang ingin dicache
       },
@@ -27,12 +30,12 @@ export default defineConfig({
         start_url: '/', // Halaman awal aplikasi
         icons: [
           {
-            src: 'pwa-192x192.png',
+            src: 'images.png',
             sizes: '192x192',
             type: 'image/png',
           },
           {
-            src: 'pwa-512x512.png',
+            src: 'images.png',
             sizes: '512x512',
             type: 'image/png',
           },
