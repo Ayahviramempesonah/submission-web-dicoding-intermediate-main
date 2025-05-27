@@ -13,6 +13,7 @@ import {
   isCurrentPushSubscriptionAvailable,
   subscribe,
   unsubscribe,
+  getPushSubscription,
 } from '../utils/notification-helper';
 
 class App {

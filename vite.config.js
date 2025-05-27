@@ -8,13 +8,13 @@ export default defineConfig({
   plugins: [
     VitePWA({
       strategies: 'injectManifest',
-      swSrc: 'sw.js', // Path relative to Vite's root ('src'), so it points to 'src/public/sw.js'
+      swSrc: 'public/sw.js', // Path relative to Vite's root ('src'), so it points to 'src/public/sw.js'
       swDest: resolve(__dirname, 'dist/sw.js'), // Output file Service Worker
       registerType: 'autoUpdate', // Memastikan Service Worker diperbarui otomatis
       injectRegister: 'auto', // Mendaftarkan Service Worker secara otomatis
       devOptions: {
         type: 'module',
-        enabled: true,
+        // enabled: true,
       },
       injectManifest: {
         globPatterns: ['**/*.{js,css,html,ico,png,svg}'], // File statis yang ingin dicache

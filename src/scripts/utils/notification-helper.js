@@ -92,7 +92,17 @@ export async function subscribe() {
     alert(failureSubscribeMessage);
 
     // Undo subscribe to push notification
-    await pushSubscription.unsubscribe();
+    // Pastikan pushSubscription ada dan valid sebelum mencoba unsubscribe
+    if (pushSubscription && typeof pushSubscription.unsubscribe === 'function') {
+      try {
+        await pushSubscription.unsubscribe();
+        console.log('Berhasil unsubscribe setelah upaya langganan gagal.');
+      } catch (unsubError) {
+        console.error('Error saat mencoba unsubscribe setelah langganan gagal:', unsubError);
+      }
+    } else {
+      console.warn('pushSubscription tidak tersedia untuk unsubscribe setelah error.');
+    }
   }
 }
 
