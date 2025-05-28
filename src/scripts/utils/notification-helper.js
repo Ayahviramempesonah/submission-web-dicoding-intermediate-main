@@ -46,13 +46,23 @@ export async function isCurrentPushSubscriptionAvailable() {
 }
 
 export function generateSubscribeOptions() {
+  //cek dulu
+  const applicationServerKey = convertBase64ToUint8Array(CONFIG.VAPID_PUBLIC_KEY);
+
+  // Log untuk verifikasi
+  console.log('VAPID Public Key (String):', CONFIG.VAPID_PUBLIC_KEY);
+  console.log('Application Server Key (Uint8Array):', applicationServerKey);
+  // console.log('Is Uint8Array:', applicationServerKey instanceof Uint8Array);
+
   return {
     userVisibleOnly: true,
-    applicationServerKey: convertBase64ToUint8Array(CONFIG.VAPID_PUBLIC_KEY),
+    applicationServerKey: applicationServerKey,
   };
 }
 
 export async function subscribe() {
+  console.log('subscribe', subscribe);
+
   if (!(await requestNotificationPermission())) {
     return;
   }
@@ -71,7 +81,11 @@ export async function subscribe() {
 
   try {
     const registration = await navigator.serviceWorker.ready;
+    console.log('registration', registration);
+
     pushSubscription = await registration.pushManager.subscribe(generateSubscribeOptions());
+
+    // console.log('pushSubscription',pushSubscription)
 
     const { endpoint, keys } = pushSubscription.toJSON();
     const response = await subscribePushNotification({ endpoint, keys });

@@ -6,12 +6,16 @@ import { StaleWhileRevalidate } from 'workbox-strategies';
 // src/sw.js
 
 // Ini adalah placeholder yang WAJIB ada untuk injectManifest
-const manifest = self.__WB_MANIFEST
+const manifest = self.__WB_MANIFEST;
 precacheAndRoute(manifest);
+
+//untuk mode pengembangan fetch
+const devMode = false;
+
 // Tambahkan strategi caching dinamis untuk API/story jika perlu
 registerRoute(
   ({ url }) => url.origin === 'https://story-api.dicoding.dev',
-  new StaleWhileRevalidate({ cacheName: 'api-cache' })
+  new StaleWhileRevalidate({ cacheName: 'api-cache' }),
 );
 
 self.addEventListener('install', (event) => {
@@ -25,18 +29,22 @@ self.addEventListener('activate', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
-  console.log('Service Worker: Fetching', event.request.url);
+  //   const url = new URL(event.request.url);
+  // if(devMode){
+  //   console.log('Service Worker: Fetching', url);
+  // }
+  // console.log('Service Worker: Fetching', event.request.url);
 });
 
 // self.addEventListener('push', (event) => {
 //   console.log('Service worker pushing...');
- 
+
 //   async function chainPromise() {
 //     await self.registration.showNotification('Ada laporan baru untuk Anda!', {
 //       body: 'lapar abangkuh',
 //     });
 //   }
- 
+
 //   event.waitUntil(chainPromise());
 // });
 // baru
