@@ -1,0 +1,40 @@
+// /src/sw.js
+import { precacheAndRoute } from 'workbox-precaching';
+import { registerRoute } from 'workbox-routing';
+import { StaleWhileRevalidate } from 'workbox-strategies';
+
+// src/sw.js
+
+// Ini adalah placeholder yang WAJIB ada untuk injectManifest
+precacheAndRoute(self.__WB_MANIFEST);
+// Tambahkan strategi caching dinamis untuk API/story jika perlu
+registerRoute(
+  ({ url }) => url.origin === 'https://story-api.dicoding.dev ',
+  new StaleWhileRevalidate({ cacheName: 'api-cache' })
+);
+
+self.addEventListener('install', (event) => {
+  console.log('Service Worker: Installed');
+  self.skipWaiting();
+});
+
+self.addEventListener('activate', (event) => {
+  console.log('Service Worker: Activated');
+  event.waitUntil(clients.claim());
+});
+
+self.addEventListener('fetch', (event) => {
+  console.log('Service Worker: Fetching', event.request.url);
+});
+
+self.addEventListener('push', (event) => {
+  console.log('Service worker pushing...');
+ 
+  async function chainPromise() {
+    await self.registration.showNotification('Ada laporan baru untuk Anda!', {
+      body: 'lapar abangkuh',
+    });
+  }
+ 
+  event.waitUntil(chainPromise());
+});
