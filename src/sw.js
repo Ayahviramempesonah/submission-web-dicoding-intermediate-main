@@ -6,10 +6,11 @@ import { StaleWhileRevalidate } from 'workbox-strategies';
 // src/sw.js
 
 // Ini adalah placeholder yang WAJIB ada untuk injectManifest
-precacheAndRoute(self.__WB_MANIFEST);
+const manifest = self.__WB_MANIFEST
+precacheAndRoute(manifest);
 // Tambahkan strategi caching dinamis untuk API/story jika perlu
 registerRoute(
-  ({ url }) => url.origin === 'https://story-api.dicoding.dev ',
+  ({ url }) => url.origin === 'https://story-api.dicoding.dev',
   new StaleWhileRevalidate({ cacheName: 'api-cache' })
 );
 
@@ -27,14 +28,28 @@ self.addEventListener('fetch', (event) => {
   console.log('Service Worker: Fetching', event.request.url);
 });
 
-self.addEventListener('push', (event) => {
-  console.log('Service worker pushing...');
+// self.addEventListener('push', (event) => {
+//   console.log('Service worker pushing...');
  
-  async function chainPromise() {
-    await self.registration.showNotification('Ada laporan baru untuk Anda!', {
-      body: 'lapar abangkuh',
+//   async function chainPromise() {
+//     await self.registration.showNotification('Ada laporan baru untuk Anda!', {
+//       body: 'lapar abangkuh',
+//     });
+//   }
+ 
+//   event.waitUntil(chainPromise());
+// });
+// baru
+self.addEventListener('push', (event) => {
+  console.log('[Service worker] pushing...');
+
+  async function showNotification() {
+    const data = await event.data.json();
+
+    await self.registration.showNotification(data.title, {
+      body: data.options.body,
     });
   }
- 
-  event.waitUntil(chainPromise());
+
+  event.waitUntil(showNotification());
 });
