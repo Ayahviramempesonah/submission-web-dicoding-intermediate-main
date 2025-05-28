@@ -25,8 +25,8 @@ export default defineConfig({
       globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
 
       manifest: {
-        name: 'InstaLite Story App',
-        short_name: 'InstaLite',
+        name: 'Storylite App',
+        short_name: 'Storylite App',
         description:
           'A Progressive Web App for sharing stories with offline support and push notifications.',
         theme_color: '#3498db',
@@ -34,8 +34,8 @@ export default defineConfig({
         display: 'standalone',
         start_url: '/',
         icons: [
-          { src: 'images.png', sizes: '192x192', type: 'image/png' },
-          { src: 'images.png', sizes: '512x512', type: 'image/png' },
+          { src: 'Storylite.png', sizes: '192x192', type: 'image/png' },
+          { src: 'Storylite.png', sizes: '512x512', type: 'image/png' },
         ],
       },
     }),

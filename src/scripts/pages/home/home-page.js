@@ -18,7 +18,7 @@ export default class HomePage {
  </section>
 <div id="story-loading-container"></div>
 <section class="container"   aria-labelledby="stories-heading" >
- <h1 class="section-title">InstaLite Story</h1>
+ <h1 class="section-title">Storylite Story</h1>
  <div id="story-list" class="story-list" role="list" aria-live="polite" ></div>
  </section> 
 
