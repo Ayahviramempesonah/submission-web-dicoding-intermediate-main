@@ -11,7 +11,7 @@ export default defineConfig({
     VitePWA({
       strategies: 'injectManifest',
       registerType: 'autoUpdate',
-      injectRegister: false,
+      injectRegister: 'auto',
       devOptions: {
         enabled: true,
         type: 'module',
