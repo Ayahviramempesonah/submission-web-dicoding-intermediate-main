@@ -158,7 +158,6 @@ export async function unsubscribe() {
   }
 }
 
-
 //baru
 // notification-helper.js
 // import { convertBase64ToUint8Array } from './index';
@@ -168,7 +167,7 @@ export async function unsubscribe() {
 //   if (!('serviceWorker' in navigator)) {
 //     throw new Error('Browser tidak mendukung Service Worker');
 //   }
-  
+
 //   if (!('PushManager' in window)) {
 //     throw new Error('Browser tidak mendukung Push API');
 //   }
@@ -176,12 +175,12 @@ export async function unsubscribe() {
 
 // export async function getServiceWorkerRegistration() {
 //   await checkServiceWorkerSupport();
-  
+
 //   // Pastikan service worker sudah terdaftar
 //   if (!navigator.serviceWorker.controller) {
 //     await navigator.serviceWorker.register('/sw.js');
 //   }
-  
+
 //   return await navigator.serviceWorker.ready;
 // }
 
@@ -189,38 +188,38 @@ export async function unsubscribe() {
 //   try {
 //     // 1. Verifikasi dukungan browser
 //     await checkServiceWorkerSupport();
-    
+
 //     // 2. Dapatkan registration
 //     const registration = await getServiceWorkerRegistration();
-    
+
 //     // 3. Minta izin notifikasi
 //     const permission = await Notification.requestPermission();
 //     if (permission !== 'granted') {
 //       throw new Error('Izin notifikasi ditolak');
 //     }
-    
+
 //     // 4. Verifikasi VAPID key
 //     if (!CONFIG.VAPID_PUBLIC_KEY) {
 //       throw new Error('VAPID_PUBLIC_KEY tidak terkonfigurasi');
 //     }
-    
+
 //     // 5. Subscribe ke push service
 //     const subscription = await registration.pushManager.subscribe({
 //       userVisibleOnly: true,
 //       applicationServerKey: convertBase64ToUint8Array(CONFIG.VAPID_PUBLIC_KEY)
 //     });
-    
+
 //     // 6. Kirim subscription ke server
 //     const response = await subscribePushNotification({
 //       endpoint: subscription.endpoint,
 //       keys: subscription.toJSON().keys
 //     });
-    
+
 //     if (response.error) {
 //       await subscription.unsubscribe();
 //       throw new Error(response.message || 'Gagal menyimpan subscription');
 //     }
-    
+
 //     return subscription;
 //   } catch (error) {
 //     console.error('Error in subscribe:', error);

@@ -15,7 +15,7 @@ const devMode = false;
 // Tambahkan strategi caching dinamis untuk API/story jika perlu
 registerRoute(
   ({ url }) => url.origin === 'https://story-api.dicoding.dev ',
-  new StaleWhileRevalidate({ cacheName: 'api-cachem' })
+  new StaleWhileRevalidate({ cacheName: 'api-cachem' }),
 );
 
 self.addEventListener('install', (event) => {
@@ -55,7 +55,7 @@ self.addEventListener('push', (event) => {
   //   try {
   //     // Tidak perlu navigator.serviceWorker.ready di sini
   //     // Karena kita sudah dalam konteks Service Worker
-      
+
   //     // Pastikan event.data ada
   //     if (!event.data) {
   //       console.error('[SW] No data in push event');
@@ -68,7 +68,7 @@ self.addEventListener('push', (event) => {
 
   //     // Tampilkan notifikasi
   //     await self.registration.showNotification(
-  //       payload.title || 'Default Title', 
+  //       payload.title || 'Default Title',
   //       {
   //         body: payload.body || 'Default message',
   //         icon: '/images/icon.png', // Pastikan path icon benar
@@ -80,7 +80,7 @@ self.addEventListener('push', (event) => {
   //   }
   // };
 
-    async function showNotification() {
+  async function showNotification() {
     const data = await event.data.json();
 
     await self.registration.showNotification(data.title, {

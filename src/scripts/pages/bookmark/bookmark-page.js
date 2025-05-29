@@ -7,6 +7,8 @@ export default class BookMarkPage {
     `;
   }
 
-  async afterRender() {}
+  async afterRender() {
+    // src/public/images/AppImages/android/android-launchericon-192-192.png
+  }
 }
 // untuk cek merge

@@ -12,7 +12,7 @@ import { getAccessToken, removeAccessToken } from '../utils/auth';
 import {
   isCurrentPushSubscriptionAvailable,
   subscribe,
-   unsubscribe,
+  unsubscribe,
   getPushSubscription,
 } from '../utils/notification-helper';
 
@@ -31,29 +31,29 @@ class App {
     this.#setupDrawer();
   }
 
-  async #setupPushNotification() {
-    const pushNotificationTools = document.getElementById('push-notification-tools');
-    const isSubscribed = await isCurrentPushSubscriptionAvailable();
-    console.trace('lihat isSubscribed',isSubscribed)
+  // async #setupPushNotification() {
+  //   const pushNotificationTools = document.getElementById('push-notification-tools');
+  //   const isSubscribed = await isCurrentPushSubscriptionAvailable();
+  //   console.trace('lihat isSubscribed',isSubscribed)
 
-    if (isSubscribed) {
-      pushNotificationTools.innerHTML = '<button id="unsubscribe-button">Unsubscribe</button>';
-      document.getElementById('unsubscribe-button').addEventListener('click', () => {
-        unsubscribe().finally(() => {
-          this.#setupPushNotification();
-        });
-      });
+  //   if (isSubscribed) {
+  //     pushNotificationTools.innerHTML = '<button id="unsubscribe-button">Unsubscribe</button>';
+  //     document.getElementById('unsubscribe-button').addEventListener('click', () => {
+  //       unsubscribe().finally(() => {
+  //         this.#setupPushNotification();
+  //       });
+  //     });
 
-      return;
-    }
+  //     return;
+  //   }
 
-    pushNotificationTools.innerHTML = '<button id="subscribe-button">Subscribe</button>';
-    document.getElementById('subscribe-button').addEventListener('click', () => {
-      subscribe().finally(() => {
-        this.#setupPushNotification();
-      });
-    });
-  }
+  //   pushNotificationTools.innerHTML = '<button id="subscribe-button">Subscribe</button>';
+  //   document.getElementById('subscribe-button').addEventListener('click', () => {
+  //     subscribe().finally(() => {
+  //       this.#setupPushNotification();
+  //     });
+  //   });
+  // }
 
   #setupDrawer() {
     this.#drawerButton.addEventListener('click', () => {
@@ -79,36 +79,36 @@ class App {
   //navigation list
   #setupNavigationList() {}
 
-async #setupPushNotification() {
-  console.log('Attempting to setup push notification...'); // Untuk memastikan fungsi dipanggil
-  const pushNotificationTools = document.getElementById('push-notification-tools');
-  console.log('pushNotificationTools element:', pushNotificationTools); // Cek apakah elemen ditemukan
+  async #setupPushNotification() {
+    console.log('Attempting to setup push notification...'); // Untuk memastikan fungsi dipanggil
+    const pushNotificationTools = document.getElementById('push-notification-tools');
+    console.log('pushNotificationTools element:', pushNotificationTools); // Cek apakah elemen ditemukan
 
-  if (!pushNotificationTools) {
-    console.error('Error: Element with ID "push-notification-tools" not found in the DOM.');
-    return; // Keluar jika elemen tidak ada
-  }
+    if (!pushNotificationTools) {
+      console.error('Error: Element with ID "push-notification-tools" not found in the DOM.');
+      return; // Keluar jika elemen tidak ada
+    }
 
-  const isSubscribed = await isCurrentPushSubscriptionAvailable();
-  console.log('Is subscribed:', isSubscribed); // Cek status langganan
+    const isSubscribed = await isCurrentPushSubscriptionAvailable();
+    console.log('Is subscribed:', isSubscribed); // Cek status langganan
 
-  if (isSubscribed) {
-    pushNotificationTools.innerHTML = '<button id="unsubscribe-button">Unsubscribe</button>';
-    document.getElementById('unsubscribe-button').addEventListener('click', () => {
-      unsubscribe().finally(() => {
-        this.#setupPushNotification();
+    if (isSubscribed) {
+      pushNotificationTools.innerHTML = '<button id="unsubscribe-button">Unsubscribe</button>';
+      document.getElementById('unsubscribe-button').addEventListener('click', () => {
+        unsubscribe().finally(() => {
+          this.#setupPushNotification();
+        });
       });
-    });
-  } else {
-    pushNotificationTools.innerHTML = '<button id="subscribe-button">Subscribe</button>';
-    document.getElementById('subscribe-button').addEventListener('click', () => {
-      subscribe().finally(() => {
-        this.#setupPushNotification();
+    } else {
+      pushNotificationTools.innerHTML = '<button id="subscribe-button">Subscribe</button>';
+      document.getElementById('subscribe-button').addEventListener('click', () => {
+        subscribe().finally(() => {
+          this.#setupPushNotification();
+        });
       });
-    });
+    }
+    console.log('Push notification button setup complete.');
   }
-  console.log('Push notification button setup complete.');
-}
 
   async renderPage() {
     const url = getActiveRoute();
