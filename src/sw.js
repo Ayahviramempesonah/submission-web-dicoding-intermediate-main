@@ -14,8 +14,8 @@ const devMode = false;
 
 // Tambahkan strategi caching dinamis untuk API/story jika perlu
 registerRoute(
-  ({ url }) => url.origin === 'https://story-api.dicoding.dev',
-  new StaleWhileRevalidate({ cacheName: 'api-cache' }),
+  ({ url }) => url.origin === 'https://story-api.dicoding.dev ',
+  new StaleWhileRevalidate({ cacheName: 'api-cachem' })
 );
 
 self.addEventListener('install', (event) => {
@@ -49,9 +49,38 @@ self.addEventListener('fetch', (event) => {
 // });
 // baru
 self.addEventListener('push', (event) => {
-  console.log('[Service worker] pushing...');
+  console.log('[SW] Push event received');
 
-  async function showNotification() {
+  // const chainPromise = async () => {
+  //   try {
+  //     // Tidak perlu navigator.serviceWorker.ready di sini
+  //     // Karena kita sudah dalam konteks Service Worker
+      
+  //     // Pastikan event.data ada
+  //     if (!event.data) {
+  //       console.error('[SW] No data in push event');
+  //       return;
+  //     }
+
+  //     // Parse data notifikasi
+  //     const payload = event.data.json();
+  //     console.log('[SW] Push data:', payload);
+
+  //     // Tampilkan notifikasi
+  //     await self.registration.showNotification(
+  //       payload.title || 'Default Title', 
+  //       {
+  //         body: payload.body || 'Default message',
+  //         icon: '/images/icon.png', // Pastikan path icon benar
+  //         badge: '/images/badge.png'
+  //       }
+  //     );
+  //   } catch (error) {
+  //     console.error('[SW] Error in push handler:', error);
+  //   }
+  // };
+
+    async function showNotification() {
     const data = await event.data.json();
 
     await self.registration.showNotification(data.title, {
@@ -60,4 +89,6 @@ self.addEventListener('push', (event) => {
   }
 
   event.waitUntil(showNotification());
+
+  // event.waitUntil(chainPromise());
 });

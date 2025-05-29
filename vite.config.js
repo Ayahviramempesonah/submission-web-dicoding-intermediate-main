@@ -25,10 +25,9 @@ export default defineConfig({
       globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
 
       manifest: {
-        name: 'Storylite App',
-        short_name: 'Storylite App',
-        description:
-          'A Progressive Web App for sharing stories with offline support and push notifications.',
+        name: 'Storylite Story App',
+        short_name: 'Storylite',
+        description: 'A Progressive Web App for sharing stories with offline support and push notifications.',
         theme_color: '#3498db',
         background_color: '#ffffff',
         display: 'standalone',
